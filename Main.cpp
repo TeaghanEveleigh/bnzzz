@@ -27,8 +27,17 @@ void delay(int seconds)
 
 int main()
 {
+ 
+    User existingUser;
     std::string hashFileName = "HashBase";
     std::string userFileName = "UserBase"; 
+
+        std::string adminUsername = "admin";
+    std::string adminPassword = "admin123";
+    double adminBalance = 1000000;
+
+    // Create the admin account
+    
    /*
 
     std::unordered_map<std::string, int> hashbase = retrieveHash(hashFileName);
@@ -50,6 +59,7 @@ int main()
     std::cout << "Retrieving Hash..." << std::endl;
     delay(2);
     std::unordered_map<std::string, int> hashbase = retrieveHash(hashFileName);
+    createUser(adminUsername, adminPassword, adminBalance, userFileName, hashbase, hashFileName);
 
     system("cls");
    bool optionscreen = false;
@@ -101,7 +111,7 @@ int main()
         std::string username;
         std::string password;
         bool invalidusername = false;
-        User existingUser;
+       
         
         while(invalidusername==false){
             system("cls");
@@ -178,8 +188,9 @@ int main()
     createUser(username, password, 0.0, userFileName, hashbase, hashFileName);
     std::cout << "Account created successfully!" << std::endl;
 }
-        
-    {
+    bool isRunnin=true;
+        while(isRunnin){
+    
 
     system("cls");
     std::cout << " _ _ _       _                       " << std::endl;
@@ -208,10 +219,27 @@ int main()
         // shows transaction history of user and if it exceed lets say 10 transactions then it will be shown in a new page
     }
     else if (optionMain == 3)
-    {
-        std::cout << "Make a transaction" << std::endl;
-        //
+{
+    std::cout << "Make a transaction" << std::endl;
+
+    std::string receiverUsername;
+    double transactionAmount;
+
+    std::cout << "Please enter the username of the person you would like to transfer to: ";
+    std::cin >> receiverUsername;
+
+    std::cout << "Please enter the amount you would like to transfer: ";
+    std::cin >> transactionAmount;
+
+    // Perform the transaction
+    bool transactionSuccessful = makeTransaction(existingUser, receiverUsername, transactionAmount, userFileName, hashbase);
+
+    if (transactionSuccessful) {
+        std::cout << "Transaction completed successfully!" << std::endl;
+    } else {
+        std::cout << "Transaction failed. Please check the receiver's username and ensure you have sufficient balance." << std::endl;
     }
+}
     else if (optionMain == 4)
     {
         std::cout << "" << std::endl;
