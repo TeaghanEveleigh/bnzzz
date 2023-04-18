@@ -24,11 +24,18 @@ public:
 
     double getBalance() const { return balance; }
     void setBalance(double balance) { this->balance = balance; }
+    void addTransaction(const transaction& t) { transactionHistory.push_back(t); }
+    std::vector<transaction> getTransactions() const { return transactionHistory; }
+    void setTransactionHistory(const std::vector<transaction>& transactions){
+        this->transactionHistory = transactions;
+    }
+
 
 private:
     std::string userName;
     std::string password;
     double balance;
+    std::vector<transaction> transactionHistory;
 };
 
 
