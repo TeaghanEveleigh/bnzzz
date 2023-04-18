@@ -1,14 +1,9 @@
-
 #include "user.h"
 #include "account.h"
+#include "SystemWideFunctions.h"
 #include <chrono>
 #include <iostream>
-#include "SystemWideFunctions.h"
 #include <string>
-#include <vector>
-#include <fstream>
-#include <sstream>
-#include <iomanip>
 #include <unordered_map>
 void delay(int seconds)
 {
@@ -27,14 +22,15 @@ void delay(int seconds)
 
 int main()
 {
- 
-    User existingUser;
+     User existingUser;
     std::string hashFileName = "HashBase";
     std::string userFileName = "UserBase"; 
+   /* 
+  
 
         std::string adminUsername = "admin";
     std::string adminPassword = "admin123";
-    double adminBalance = 1000000;
+    double adminBalance = 1000000;*/
 
     // Create the admin account
     
@@ -57,9 +53,9 @@ int main()
 
     //code that prints retrieving hash and waits 2 seconds
     std::cout << "Retrieving Hash..." << std::endl;
-    delay(2);
+    delay(1);
     std::unordered_map<std::string, int> hashbase = retrieveHash(hashFileName);
-    createUser(adminUsername, adminPassword, adminBalance, userFileName, hashbase, hashFileName);
+    //createUser(adminUsername, adminPassword, adminBalance, userFileName, hashbase, hashFileName);
 
     system("cls");
    bool optionscreen = false;
@@ -189,7 +185,7 @@ int main()
     std::cout << "Account created successfully!" << std::endl;
 }
     bool isRunnin=true;
-        while(isRunnin){
+        while(isRunnin==true){
     
 
     system("cls");
@@ -200,7 +196,7 @@ int main()
     std::cout << "=====================================" << std::endl;
     std::cout << "Welcome to BNZZ Banking. Please select an option:" << std::endl;
     std::cout << "        1. View your balance" << std::endl;
-    std::cout << "        2. View transaction history" << std::endl;
+    std::cout << "        2. View recent transactions" << std::endl;
     std::cout << "        3. Make a transaction" << std::endl;
     std::cout << "        4. Logoff" << std::endl;
     std::cout << "        5. View profile information" << std::endl;
@@ -212,14 +208,24 @@ int main()
     {
         std::cout << "Your balance is: $0.00" << std::endl;
         // shows user balance
+        system("pause");
     }
     else if (optionMain == 2)
     {
-        std::cout << "Transaction history" << std::endl;
+       /* std::cout << "Transaction history" << std::endl;
         // shows transaction history of user and if it exceed lets say 10 transactions then it will be shown in a new page
+        //print out the transaction history of the user
+        const std::vector<transaction> transactionHistory = existingUser.getTransactionHistory();
+        for (size_t i = 0; i < transactionHistory.size(); i++) {
+            std::cout << transactionHistory[i].getAmount() << " to " << transactionHistory[i].getReceiver()<< std::endl;
+        }
+        system("pause");
+        // Retrieve the transaction history of the user
+        */
     }
     else if (optionMain == 3)
 {
+    system("cls");
     std::cout << "Make a transaction" << std::endl;
 
     std::string receiverUsername;
@@ -239,6 +245,7 @@ int main()
     } else {
         std::cout << "Transaction failed. Please check the receiver's username and ensure you have sufficient balance." << std::endl;
     }
+    delay(3);
 }
     else if (optionMain == 4)
     {
@@ -247,6 +254,11 @@ int main()
     else if (optionMain == 5)
     {
         std::cout << "Profile information" << std::endl;
+        // shows user profile information
+        std::cout << "Username: " << existingUser.getUserName() << std::endl;
+        std::cout << "Password: " << existingUser.getPassword() << std::endl;
+        std::cout << "Balance: " << existingUser.getBalance() << std::endl;
+        system("pause");
     }
     else if (optionMain == 6)
     {
@@ -258,12 +270,12 @@ int main()
                   << "+-----------------------+\n";
 
         // Wait for 3 seconds
-        delay(3);
+        delay(1);
         system("cls");
         // Exit the program
         exit(0);
     }
-    
-    return 0;
 }
+    return 0;
+
 }
