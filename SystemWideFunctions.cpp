@@ -48,7 +48,8 @@ void retrieveUser(User& user, const std::string& fileName, int profileNum) {
             user.setUserName(username);
             user.setPassword(password);
             user.setBalance(balance);
-        } else if (count > profileNum * 4 && count <= profileNum * 4 + 3) {
+        }
+        else if (count > profileNum * 4 && count <= profileNum * 4 + 3) {
             // Reading the transaction history lines
             std::stringstream ss(line);
             std::string sender, receiver;
@@ -57,7 +58,8 @@ void retrieveUser(User& user, const std::string& fileName, int profileNum) {
                 transaction t(sender, receiver, amount);
                 user.addTransaction(t);
             }
-        } else if (count > profileNum * 4 + 3) {
+        }
+        else if (count > profileNum * 4 + 3) {
             break;
         }
         count++;
@@ -70,7 +72,7 @@ void retrieveUser(User& user, const std::string& fileName, int profileNum) {
     outFile << user.getUserName() << " " << user.getPassword() << " " << user.getBalance() << std::endl;
     outFile.close();
 }*/
-void storeUser(const User &user, const std::string &fileName) {
+void storeUser(const User& user, const std::string& fileName) {
     std::ofstream outFile(fileName, std::ios::app);
     outFile << user.getUserName() << " " << user.getPassword() << " " << user.getBalance() << std::endl;
 
@@ -81,8 +83,8 @@ void storeUser(const User &user, const std::string &fileName) {
         std::stringstream transactionLine;
         for (int j = 0; j < maxTransactionsPerLine && transactionCounter < transactions.size(); ++j) {
             transactionLine << transactions[transactionCounter].getSender() << " "
-                            << transactions[transactionCounter].getReceiver() << " "
-                            << transactions[transactionCounter].getAmount() << " ";
+                << transactions[transactionCounter].getReceiver() << " "
+                << transactions[transactionCounter].getAmount() << " ";
             transactionCounter++;
         }
         outFile << transactionLine.str() << std::endl;
@@ -122,7 +124,7 @@ void updateHashbase(std::unordered_map<std::string, int>& hashbase, const std::s
 void addUserToHashbase(std::unordered_map<std::string, int>& hashbase, const std::string& username, const int& position) {
     hashbase[username] = position;
 }
-void createUser(const std::string &username, const std::string &password, double balance, const std::string &userFileName, std::unordered_map<std::string, int> &hashbase, const std::string &hashFileName) {
+void createUser(const std::string& username, const std::string& password, double balance, const std::string& userFileName, std::unordered_map<std::string, int>& hashbase, const std::string& hashFileName) {
     if (usernameExists(username, hashbase)) {
         std::cout << "Username already exists. Please choose a different username." << std::endl;
         return;
@@ -179,8 +181,8 @@ void updateUser(const User& user, const std::string& userFileName, int position)
         std::stringstream transactionLine;
         for (int j = 0; j < maxTransactionsPerLine && transactionCounter < transactions.size(); ++j) {
             transactionLine << transactions[transactionCounter].getSender() << " "
-                            << transactions[transactionCounter].getReceiver() << " "
-                            << transactions[transactionCounter].getAmount() << " ";
+                << transactions[transactionCounter].getReceiver() << " "
+                << transactions[transactionCounter].getAmount() << " ";
             transactionCounter++;
         }
         lines[position * 4 + 1 + i] = transactionLine.str();
@@ -216,7 +218,7 @@ void updateUser(const User& user, const std::string& userFileName, int position)
 
     return true;
 }*/
-bool makeTransaction(User &sender, const std::string &receiverUsername, double amount, const std::string &userFileName, std::unordered_map<std::string, int> &hashbase) {
+bool makeTransaction(User& sender, const std::string& receiverUsername, double amount, const std::string& userFileName, std::unordered_map<std::string, int>& hashbase) {
     if (amount <= 0 || amount > sender.getBalance()) {
         return false;
     }
