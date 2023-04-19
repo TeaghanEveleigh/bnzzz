@@ -14,7 +14,7 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
-const int maxTransactionsPerLine = 4;
+const int maxTransactionsPerLine = 7;
 
 
 /*
