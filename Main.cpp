@@ -196,10 +196,7 @@ int main()
             }
         }
 
-        std::cout << "Please enter your password" << std::endl;
-        // check if the password is valid
-        std::string password;
-        std::cin >> password;
+        
 
         // Create the new user account and add it to the userbase and hashbase
 
@@ -277,7 +274,42 @@ int main()
 
             }
 
-            
+            else {
+                std::cout << "Please enter the amount you would like to transfer: ";
+                std::cin >> transactionAmount;
+                if (existingUser.getBalance() < transactionAmount) {
+                    std::cout << "You do not have enough money to make this transaction. Please try again." << std::endl;
+                    delay(3);
+
+                }
+                else {
+                    // Perform the transaction
+                    transactionSuccessful = makeTransaction(existingUser, receiverUsername, transactionAmount, userFileName, hashbase);
+                }
+            }
+
+            if (transactionSuccessful) {
+                std::cout << "Transaction completed successfully!" << std::endl;
+
+                // Prompt the user if they want to add the receiver to their quick pay list
+                char addToQuickPay;
+                std::cout << "Do you want to add this user to your quick pay list? (Y/N): ";
+                std::cin >> addToQuickPay;
+
+                if (addToQuickPay == 'Y' || addToQuickPay == 'y') {
+                    std::string nickname;
+                    std::cout << "Enter a nickname for the user: ";
+                    std::cin >> nickname;
+                    existingUser.addQuickPayFriend(nickname, receiverUsername); // swap the values of nickname and receiverUsername
+                    updateUser(existingUser, userFileName, hashbase[existingUser.getUserName()]);
+                    std::cout << "User added to your quick pay list successfully!" << std::endl;
+                }
+            }
+            else {
+                std::cout << "Transaction failed. Please check the receiver's username and ensure you have sufficient balance." << std::endl;
+            }
+            delay(3);
+        }
         else if (optionMain == 4) {
             system("cls");
             std::cout << "Quick Pay List" << std::endl;
