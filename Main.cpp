@@ -19,6 +19,10 @@ void delay(int seconds)
         }
     }
 }
+void clearInput() {
+    std::cin.clear(); // Clears the fail flag
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignores any remaining input in the stream
+}
 
 
 int main()
@@ -26,31 +30,6 @@ int main()
     User existingUser;
     std::string hashFileName = "HashBase";
     std::string userFileName = "UserBase";
-    /*
-
-
-         std::string adminUsername = "admin";
-     std::string adminPassword = "admin123";
-     double adminBalance = 1000000;*/
-
-     // Create the admin account
-
-    /*
-
-     std::unordered_map<std::string, int> hashbase = retrieveHash(hashFileName);
-
-     // Test creating a new user
-     createUser("JohnDeee", "password123", 1000.0, userFileName, hashbase, hashFileName);
-     // Test retrieving an existing user
-     User existingUser;
-     std::string username = "JohnDeee";
-     if (usernameExists(username, hashbase)) {
-         int position = hashbase[username];
-         retrieveUser(existingUser, userFileName, position);
-         std::cout << "Username: " << existingUser.getUserName() << ", Password: " << existingUser.getPassword() << ", Balance: " << existingUser.getBalance() << std::endl;
-     } else {
-         std::cout << "User not found." << std::endl;
-     }*/
 
      //code that prints retrieving hash and waits 2 seconds
     system("cls");
@@ -94,7 +73,7 @@ int main()
             std::cout << "2)create an account" << std::endl;
         }
         std::cin >> option;
-        // try catch for invalid input if option is not 1 or two if it isnt then throw the exception of invalid option and ask for input again by continuing the loop else if it is 1 or 2 then break the loop
+  
         if (option == 1)
         {
             optionscreen = true;
@@ -143,7 +122,7 @@ int main()
             if (usernameExists(username, hashbase)) {
                 int position = hashbase[username];
                 retrieveUser(existingUser, userFileName, position);
-                std::cout << "Username: " << existingUser.getUserName() << ", Password: " << existingUser.getPassword() << ", Balance: " << existingUser.getBalance() << std::endl;
+                
 
                 std::cout << "Please enter your password: ";
                 std::cin >> password;
@@ -222,6 +201,10 @@ int main()
         // take input and make an if statement for each option
         int optionMain;
         std::cin >> optionMain;
+        if (std::cin.fail()) {
+    clearInput();
+    continue; // Skips the rest of the loop iteration
+}
         if (optionMain == 1)
         {
             std::cout << "Your balance is: " << existingUser.getBalance() << std::endl;
