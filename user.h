@@ -1,39 +1,51 @@
-#ifndef USER_H
-#define USER_H
-
 #include <string>
+#include <iostream>
+#include <fstream>
 #include <vector>
 #include <map>
 #include <unordered_map>
 #include "transaction.h"
+#ifndef USER_H
+#define USER_H
 
 class User {
 public:
-    User();
-    User(const std::string& userName, const std::string& password, double balance);
+    User() : userName(""), password(""), balance(0) {}
+    User(const std::string& userName, const std::string& password, double balance)
+        : userName(userName), password(password), balance(balance) {}
 
-    std::string getUserName() const;
-    void setUserName(const std::string& userName);
+    std::string getUserName() const { return userName; }
+    void setUserName(const std::string& userName) { this->userName = userName; }
 
-    std::string getPassword() const;
-    void setPassword(const std::string& password);
+    std::string getPassword() const { return password; }
+    void setPassword(const std::string& password) { this->password = password; }
 
-    double getBalance() const;
-    void setBalance(double balance);
+    double getBalance() const { return balance; }
+    void setBalance(double balance) { this->balance = balance; }
+    void addTransaction(const transaction& t) { transactionHistory.push_back(t); }
+    std::vector<transaction> getTransactions() const { return transactionHistory; }
+    void setTransactionHistory(const std::vector<transaction>& transactions){
+        this->transactionHistory = transactions;
+    }
 
-    void addTransaction(const Transaction& t);
-    std::vector<Transaction> getTransactions() const;
-    void setTransactionHistory(const std::vector<Transaction>& transactions);
+    // Add new methods for quickPayFriends
+    void addQuickPayFriend(const std::string& userName, const std::string& alias) {
+        quickPayFriends[alias] = userName;
+    }
 
-    void addQuickPayFriend(const std::string& userName, const std::string& alias);
-    const std::unordered_map<std::string, std::string>& getQuickPayFriends() const;
-    void setQuickPayFriends(const std::unordered_map<std::string, std::string>& newQuickPayFriends);
 
+    const std::unordered_map<std::string, std::string>& getQuickPayFriends() const {
+    return quickPayFriends;
+}
+
+    void setQuickPayFriends(const std::unordered_map<std::string, std::string>& newQuickPayFriends) {
+        quickPayFriends = newQuickPayFriends;
+    }
 private:
     std::string userName;
     std::string password;
     double balance;
-    std::vector<Transaction> transactionHistory;
+    std::vector<transaction> transactionHistory;
     std::unordered_map<std::string, std::string> quickPayFriends;
 };
 
