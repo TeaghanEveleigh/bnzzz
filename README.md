@@ -12,5 +12,6 @@ the user has the following options
 
 
 PLEASE NOTE//I still plan on adding some form of file encryption likely with bcrypt in order to protect the users information 
-Also note that the same concept of reading the file can be done in binary but so that the person viewing this project can see what is happening in the file itself I have made it just text however binary would work just as well the same concept would apply// 
+Also note that the same concept of reading the file can be done in binary but so that the person viewing this project can see what is happening in the file itself I have made it just text however binary would work just as well the same concept would apply// binary would naturally make this even more scalable and read and write times would improve
+
 
