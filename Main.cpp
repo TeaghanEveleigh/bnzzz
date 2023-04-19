@@ -275,6 +275,13 @@ int main()
                 std::cout << "Transaction completed successfully!" << std::endl;
 
                 // Prompt the user if they want to add the receiver to their quick pay list
+                //if the user is already in the quickpay list then it  will not ask the user to add it again
+                if(existingUser.isInQuickPay(receiverUsername)){
+                    std::cout << "User is already in your quick pay list." << std::endl;
+                    delay(3);
+                    continue;
+                }
+                else {
                 char addToQuickPay;
                 std::cout << "Do you want to add this user to your quick pay list? (Y/N): ";
                 std::cin >> addToQuickPay;
@@ -287,6 +294,7 @@ int main()
                     updateUser(existingUser, userFileName, hashbase[existingUser.getUserName()]);
                     std::cout << "User added to your quick pay list successfully!" << std::endl;
                 }
+            }
             }
             else {
                 std::cout << "Transaction failed. Please check the receiver's username and ensure you have sufficient balance." << std::endl;

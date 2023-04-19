@@ -41,6 +41,9 @@ public:
     void setQuickPayFriends(const std::unordered_map<std::string, std::string>& newQuickPayFriends) {
         quickPayFriends = newQuickPayFriends;
     }
+    bool isInQuickPay(const std::string& alias) const {
+        return quickPayFriends.find(alias) != quickPayFriends.end();
+    }
 private:
     std::string userName;
     std::string password;
