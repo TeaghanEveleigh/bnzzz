@@ -8,8 +8,6 @@
 #ifndef USER_H
 #define USER_H
 
-
-
 class User {
 public:
     User() : userName(""), password(""), balance(0) {}
@@ -30,13 +28,25 @@ public:
         this->transactionHistory = transactions;
     }
 
+    // Add new methods for quickPayFriends
+    void addQuickPayFriend(const std::string& userName, const std::string& alias) {
+        quickPayFriends[alias] = userName;
+    }
 
+
+    const std::unordered_map<std::string, std::string>& getQuickPayFriends() const {
+    return quickPayFriends;
+}
+
+    void setQuickPayFriends(const std::unordered_map<std::string, std::string>& newQuickPayFriends) {
+        quickPayFriends = newQuickPayFriends;
+    }
 private:
     std::string userName;
     std::string password;
     double balance;
     std::vector<transaction> transactionHistory;
+    std::unordered_map<std::string, std::string> quickPayFriends;
 };
-
 
 #endif
