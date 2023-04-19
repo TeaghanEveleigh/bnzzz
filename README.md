@@ -1,5 +1,5 @@
 The following project is a replication of the BNZ banking app with all its essential features for the most part
-I implememnt a file management system that stores the user object in a file and then stores the users position in a seperate file in the form of a hashmap the idea generally is to read the hashmap which then will retrieve the user instance upon startup 
+I implememnt a file management system that stores the user object in a file and then stores the users position in a seperate file in the form of a hashmap the idea generally is to read the hashmap which then will retrieve the user instance upon startup.When we make any transaction we would also update the users transactions in the file and then retrieve the reciever and update their history and ammout.
 if this app was to be scaled we would need to create multiple files and have multiple hashmaps that would point to different files and their corresponding position which could be done with relative ease aand this makes the project very scalable for if we were to have a high user count
 
 the user has the following options
