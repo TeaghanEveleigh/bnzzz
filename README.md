@@ -1,4 +1,4 @@
-=# BNZ Banking App Replica
+# BNZ Banking App Replica
 
 This project is a replication of the BNZ banking app with all its essential features. The app implements a file management system that stores user objects in files and stores users' positions in separate files in the form of a hashmap. The main idea is to read the hashmap upon startup, which retrieves the user instances.
 
