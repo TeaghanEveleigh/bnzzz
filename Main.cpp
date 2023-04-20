@@ -31,7 +31,7 @@ int main()
     std::string hashFileName = "HashBase";
     std::string userFileName = "UserBase";
 
-     //code that prints retrieving hash and waits 2 seconds
+    //code that prints retrieving hash and waits 2 seconds
     system("cls");
     std::cout << "           _    _    _              _              _           " << std::endl;
     std::cout << " ___  ___ | |_ | |_ |_| ___  ___   | |_  ___  ___ | |_          " << std::endl;
@@ -73,7 +73,7 @@ int main()
             std::cout << "2)create an account" << std::endl;
         }
         std::cin >> option;
-  
+
         if (option == 1)
         {
             optionscreen = true;
@@ -122,7 +122,7 @@ int main()
             if (usernameExists(username, hashbase)) {
                 int position = hashbase[username];
                 retrieveUser(existingUser, userFileName, position);
-                
+
 
                 std::cout << "Please enter your password: ";
                 std::cin >> password;
@@ -175,7 +175,7 @@ int main()
             }
         }
 
-        
+
 
         // Create the new user account and add it to the userbase and hashbase
 
@@ -202,9 +202,9 @@ int main()
         int optionMain;
         std::cin >> optionMain;
         if (std::cin.fail()) {
-    clearInput();
-    continue; // Skips the rest of the loop iteration
-}
+            clearInput();
+            continue; // Skips the rest of the loop iteration
+        }
         if (optionMain == 1)
         {
             std::cout << "Your balance is: " << existingUser.getBalance() << std::endl;
@@ -222,17 +222,17 @@ int main()
             // shows transaction history of user and if it exceed lets say 10 transactions then it will be shown in a new page
             //print out the transaction history of the user
             const std::vector<transaction> transactions = existingUser.getTransactions();
-            for (size_t i = 0; i < transactions.size(); i++) {
-                if (existingUser.getUserName() == transactions[i].getSender()) {
-                    std::cout << i + 1 << ") " << "You" << " transfered" << " " << transactions[i].getAmount() << " to " << transactions[i].getReceiver() << std::endl;
+            size_t numTransactions = transactions.size();
+
+            for (size_t i = 0; i < numTransactions; i++) {
+                size_t reversedIndex = numTransactions - i - 1;
+
+                if (existingUser.getUserName() == transactions[reversedIndex].getSender()) {
+                    std::cout << i + 1 << ") " << "You" << " transfered" << " " << transactions[reversedIndex].getAmount() << " to " << transactions[reversedIndex].getReceiver() << std::endl;
                 }
-                else if (existingUser.getUserName() == transactions[i].getReceiver()) {
-
-                    std::cout << i + 1 << ") " << "You" << " received" << " " << transactions[i].getAmount() << " from " << transactions[i].getSender() << std::endl;
+                else if (existingUser.getUserName() == transactions[reversedIndex].getReceiver()) {
+                    std::cout << i + 1 << ") " << "You" << " received" << " " << transactions[reversedIndex].getAmount() << " from " << transactions[reversedIndex].getSender() << std::endl;
                 }
-
-                // Retrieve the transaction history of the user
-
             }
             std::cout << "press any key to go back" << std::endl;
             getch();
@@ -276,25 +276,25 @@ int main()
 
                 // Prompt the user if they want to add the receiver to their quick pay list
                 //if the user is already in the quickpay list then it  will not ask the user to add it again
-                if(existingUser.isInQuickPay(receiverUsername)){
+                if (existingUser.isInQuickPay(receiverUsername)) {
                     std::cout << "User is already in your quick pay list." << std::endl;
                     delay(3);
                     continue;
                 }
                 else {
-                char addToQuickPay;
-                std::cout << "Do you want to add this user to your quick pay list? (Y/N): ";
-                std::cin >> addToQuickPay;
+                    char addToQuickPay;
+                    std::cout << "Do you want to add this user to your quick pay list? (Y/N): ";
+                    std::cin >> addToQuickPay;
 
-                if (addToQuickPay == 'Y' || addToQuickPay == 'y') {
-                    std::string nickname;
-                    std::cout << "Enter a nickname for the user: ";
-                    std::cin >> nickname;
-                    existingUser.addQuickPayFriend(nickname, receiverUsername); // swap the values of nickname and receiverUsername
-                    updateUser(existingUser, userFileName, hashbase[existingUser.getUserName()]);
-                    std::cout << "User added to your quick pay list successfully!" << std::endl;
+                    if (addToQuickPay == 'Y' || addToQuickPay == 'y') {
+                        std::string nickname;
+                        std::cout << "Enter a nickname for the user: ";
+                        std::cin >> nickname;
+                        existingUser.addQuickPayFriend(nickname, receiverUsername); // swap the values of nickname and receiverUsername
+                        updateUser(existingUser, userFileName, hashbase[existingUser.getUserName()]);
+                        std::cout << "User added to your quick pay list successfully!" << std::endl;
+                    }
                 }
-            }
             }
             else {
                 std::cout << "Transaction failed. Please check the receiver's username and ensure you have sufficient balance." << std::endl;
@@ -302,49 +302,57 @@ int main()
             delay(3);
         }
         else if (optionMain == 4) {
-            system("cls");
-            std::cout << "Quick Pay List" << std::endl;
-            std::cout << "===============" << std::endl;
-            const auto& quickPayList = existingUser.getQuickPayFriends();
-            std::vector<std::string> userNames;
-
-            size_t index = 1;
-            for (const auto& entry : quickPayList) {
-                std::cout << index << ". Nickname: " << entry.second << ", Username: " << entry.first << std::endl;
-                userNames.push_back(entry.first);
-                index++;
-            }
-
-            std::cout << "0. Cancel" << std::endl;
             size_t userSelection;
-            std::cout << "Enter the number of the user you want to make a transaction to: ";
-            std::cin >> userSelection;
+            do {
+                system("cls");
+                std::cout << "Quick Pay List" << std::endl;
+                std::cout << "===============" << std::endl;
+                const auto& quickPayList = existingUser.getQuickPayFriends();
+                std::vector<std::string> userNames;
 
-            if (userSelection > 0 && userSelection <= quickPayList.size()) {
-                std::string receiverUsername = userNames[userSelection - 1];
-                double amount;
-                std::cout << "Enter the amount to be transferred: ";
-                std::cin >> amount;
-
-                bool transactionSuccessful = makeTransaction(existingUser, receiverUsername, amount, userFileName, hashbase);
-
-                if (transactionSuccessful && usernameExists(receiverUsername, hashbase)) {
-                    std::cout << "Transaction successful!" << std::endl;
+                size_t index = 1;
+                for (const auto& entry : quickPayList) {
+                    std::cout << index << ". Nickname: " << entry.second << ", Username: " << entry.first << std::endl;
+                    userNames.push_back(entry.first);
+                    index++;
                 }
-                else if (!usernameExists(receiverUsername, hashbase)) {
-                    std::cout << "Username does not exist. Please try again." << std::endl;
+
+                std::cout << "0. Cancel" << std::endl;
+                std::cout << "Enter the number of the user you want to make a transaction to: ";
+                std::cin >> userSelection;
+
+                if (userSelection > 0 && userSelection <= quickPayList.size()) {
+                    std::string receiverUsername = userNames[userSelection - 1];
+                    double amount;
+                    std::cout << "Enter the amount to be transferred: ";
+                    std::cin >> amount;
+
+                    bool transactionSuccessful = makeTransaction(existingUser, receiverUsername, amount, userFileName, hashbase);
+
+                    if (transactionSuccessful && usernameExists(receiverUsername, hashbase)) {
+                        std::cout << "Transaction successful!" << std::endl;
+                        delay(1);
+                    }
+                    else if (!usernameExists(receiverUsername, hashbase)) {
+                        std::cout << "Username does not exist. Please try again." << std::endl;
+                        delay(1);
+                    }
+                    else {
+                        std::cout << "Transaction failed. Please check the amount and try again." << std::endl;
+                        delay(1);
+                    }
+                }
+                else if (userSelection == 0) {
+                    std::cout << "Cancelled." << std::endl;
+                    break; // Add break here to exit the loop
                 }
                 else {
-                    std::cout << "Transaction failed. Please check the amount and try again." << std::endl;
+                    std::cout << "Invalid option. Please try again." << std::endl;
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the input buffer
+                    std::cin.get();
                 }
-            }
-            else {
-                std::cout << "Cancelled." << std::endl;
-            }
 
-            std::cout << std::endl << "Press any key to continue...";
-            std::cin.ignore();
-            std::cin.get();
+            } while (userSelection != 0);
         }
         else if (optionMain == 5)
         {
