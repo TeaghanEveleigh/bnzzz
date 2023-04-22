@@ -17,7 +17,7 @@ The user has the following options:
 
 ## Future Improvements
 
-- Implement some form of file encryption, likely with bcrypt, to protect users' information.
+- Implement some form of password encryption, likely with bcrypt, to protect users' information.
 - Note that the same concept of reading the file can be done in binary, but for the sake of this project's readability, the current implementation uses text. Switching to binary would improve scalability and read/write times.
 - Increase the number of transactions the user is allowed to view in their history.
 - Display the date and time of each transaction in the transaction history.
